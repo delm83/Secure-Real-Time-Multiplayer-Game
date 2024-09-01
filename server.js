@@ -5,6 +5,7 @@ const expect = require('chai');
 const socket = require('socket.io');
 const cors = require('cors');
 const helmet = require('helmet');
+const http = require('http').createServer(express);
 
 const fccTestingRoutes = require('./routes/fcctesting.js');
 const runner = require('./test-runner.js');
@@ -64,6 +65,25 @@ const server = app.listen(portNum, () => {
       }
     }, 1500);
   }
+});
+
+const io = socket(server);
+
+io.on('connection', function (socket) {
+  console.log('A user connected: ' + socket.id);
+  
+  socket.on('send', function (text) {
+      let newText = "<" + socket.id + "> " + text;
+      io.emit('receive', newText);
+  });
+
+  socket.on('disconnect', function () {
+      console.log('A user disconnected: ' + socket.id);
+  });
+});
+
+http.listen(function () {
+  console.log('Server started!');
 });
 
 module.exports = app; // For testing
