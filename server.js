@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const expect = require('chai');
 const socket = require('socket.io');
 const cors = require('cors');
+const helmet = require('helmet');
 
 const fccTestingRoutes = require('./routes/fcctesting.js');
 const runner = require('./test-runner.js');
@@ -15,6 +16,18 @@ app.use('/assets', express.static(process.cwd() + '/assets'));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+//The client should not be able to guess/sniff the MIME type
+app.use(helmet.noSniff())
+
+//Prevent XSS attacks
+app.use(helmet.xssFilter())
+
+//Do not cache anything from the website in the client
+app.use(helmet.noCache())
+
+//The headers say that the site is powered by PHP 7.4.3
+app.use(helmet.hidePoweredBy({ setTo: 'PHP 7.4.3' }))
 
 //For FCC testing purposes and enables user to connect from outside the hosting platform
 app.use(cors({origin: '*'})); 
