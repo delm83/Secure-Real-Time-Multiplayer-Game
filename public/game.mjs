@@ -17,5 +17,5 @@ ctx.fillText('Rank: ', 500, 50);
 ctx.fillText*/
 
 let img = new Image();
-img.src = 'https://codeskulptor-demos.commondatastorage.googleapis.com/GalaxyInvaders/alien_5_2.png';
+img.src = 'public/images/virus.png';
 ctx.drawImage(img, 10, 10);
