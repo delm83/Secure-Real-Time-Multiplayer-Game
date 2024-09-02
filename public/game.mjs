@@ -1,5 +1,5 @@
-import Player from './Player.mjs';
-import Collectible from './Collectible.mjs';
+//import Player from './Player.mjs';
+//import Collectible from './Collectible.mjs';
 
 
 const socket = io();
@@ -17,5 +17,5 @@ ctx.fillText('Rank: ', 500, 50);
 ctx.fillText*/
 
 let img = new Image();
-img.src = 'public/virus.png';
+img.src = 'https://codeskulptor-demos.commondatastorage.googleapis.com/GalaxyInvaders/alien_5_2.png';
 ctx.drawImage(img, 10, 10);
