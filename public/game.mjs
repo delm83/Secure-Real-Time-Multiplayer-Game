@@ -19,7 +19,11 @@ ctx.fillText('Rank: ', 500, 50);
 const init =()=>{
 let img = new Image();
 img.src = "assets/coin.png";
-img.onload =()=>ctx.drawImage(img, 80, 80);
+img.onload =()=>ctx.drawImage(img, 80, 80, 20, 20);
+
+let img2 = new Image();
+img2.src = "assets/grab.png"
+img2.onload =()=>ctx.drawImage(img2, 80, 280, 40, 40);
 }
 
 init();
