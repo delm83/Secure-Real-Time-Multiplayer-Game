@@ -5,7 +5,7 @@ import Collectible from './Collectible.mjs';
 const socket = io();
 const canvas = document.getElementById('game-window');
 const ctx = canvas.getContext('2d');
-
+/*
 ctx.font = '30px Fantasy';
 ctx.fillRect(0, 0, canvas.width, canvas.height);
 ctx.strokeStyle = 'white';
@@ -14,4 +14,8 @@ ctx.fillStyle = 'white';
 ctx.fillText('Controls: WASD', 5, 50);
 ctx.fillText('Grab the coin!!', 250, 50);
 ctx.fillText('Rank: ', 500, 50);
-ctx.fillText
+ctx.fillText*/
+
+let img = new Image();
+img.src = 'public/virus.png';
+ctx.drawImage(img, 10, 10);
