@@ -17,5 +17,5 @@ ctx.fillText('Rank: ', 500, 50);
 ctx.fillText*/
 
 let img = new Image();
-img.src = 'public/images/virus.png';
+img.src = 'assets/dog.png';
 ctx.drawImage(img, 10, 10);
