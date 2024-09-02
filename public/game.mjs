@@ -16,6 +16,10 @@ ctx.fillText('Grab the coin!!', 250, 50);
 ctx.fillText('Rank: ', 500, 50);
 ctx.fillText*/
 
+const init =()=>{
 let img = new Image();
-img.src = 'assets/dog.png';
+img.src = 'https://codeskulptor-demos.commondatastorage.googleapis.com/GalaxyInvaders/alien_5_2.png';
 ctx.drawImage(img, 10, 10);
+}
+
+init();
