@@ -5,7 +5,7 @@
 const socket = io();
 const canvas = document.getElementById('game-window');
 const ctx = canvas.getContext('2d');
-/*
+
 ctx.font = '30px Fantasy';
 ctx.fillRect(0, 0, canvas.width, canvas.height);
 ctx.strokeStyle = 'white';
@@ -14,12 +14,12 @@ ctx.fillStyle = 'white';
 ctx.fillText('Controls: WASD', 5, 50);
 ctx.fillText('Grab the coin!!', 250, 50);
 ctx.fillText('Rank: ', 500, 50);
-ctx.fillText*/
+
 
 const init =()=>{
 let img = new Image();
-img.src = 'https://codeskulptor-demos.commondatastorage.googleapis.com/GalaxyInvaders/alien_5_2.png';
-ctx.drawImage(img, 10, 10);
+img.src = "assets/coin.png";
+img.onload =()=>ctx.drawImage(img, 80, 80);
 }
 
 init();
