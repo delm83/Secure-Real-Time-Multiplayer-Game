@@ -5,7 +5,6 @@ const expect = require('chai');
 const socket = require('socket.io');
 const cors = require('cors');
 const helmet = require('helmet');
-const http = require('http').createServer(express);
 
 const fccTestingRoutes = require('./routes/fcctesting.js');
 const runner = require('./test-runner.js');
@@ -67,6 +66,7 @@ const server = app.listen(portNum, () => {
   }
 });
 
+const http = require('http').createServer(server);
 const io = socket(server);
 
 io.on('connection', function (socket) {
