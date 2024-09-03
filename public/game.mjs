@@ -22,8 +22,12 @@ img.src = "assets/coin.png";
 img.onload =()=>ctx.drawImage(img, 80, 80, 20, 20);
 
 let img2 = new Image();
-img2.src = "assets/grab.png"
-img2.onload =()=>ctx.drawImage(img2, 80, 280, 40, 40);
+img2.src = "assets/bluepirate.png"
+img2.onload =()=>ctx.drawImage(img2, 80, 280);
+
+let img3 = new Image();
+img3.src = "assets/greenpirate.png"
+img3.onload =()=>ctx.drawImage(img3, 280, 280);
 }
 
 init();
