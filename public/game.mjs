@@ -17,6 +17,7 @@ ctx.fillText('Rank: ', 500, 50);
 
 
 const init =()=>{
+socket.emit('init', 'first emit');
 let img = new Image();
 img.src = "assets/star.png";
 img.onload =()=>ctx.drawImage(img, 3 + Math.random()*(canvas.width-26), 70 + Math.random()*(canvas.height-93), 20, 20);

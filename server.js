@@ -69,15 +69,14 @@ const server = app.listen(portNum, () => {
 const http = require('http').createServer(server);
 const io = socket(server);
 
-io.on('connection', function (socket) {
+io.on('connection', socket=> {
   console.log('A user connected: ' + socket.id);
-  
-  socket.on('send', function (text) {
-      let newText = "<" + socket.id + "> " + text;
-      io.emit('receive', newText);
-  });
 
-  socket.on('disconnect', function () {
+  socket.on('init', text=> {
+    console.log(text);
+});
+
+  socket.on('disconnect', ()=> {
       console.log('A user disconnected: ' + socket.id);
   });
 });
