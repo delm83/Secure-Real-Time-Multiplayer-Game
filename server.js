@@ -72,17 +72,13 @@ const io = socket(server);
 io.on('connection', socket=> {
   console.log('A user connected: ' + socket.id);
 
-  socket.on('init', text=> {
-    console.log(text);
-});
+  socket.emit('init', 'emitting from server to client use f12 on game screen to get client console output');
 
   socket.on('disconnect', ()=> {
       console.log('A user disconnected: ' + socket.id);
   });
 });
 
-http.listen(function () {
-  console.log('Server started!');
-});
+http.listen(()=> console.log('Server started!'));
 
 module.exports = app; // For testing

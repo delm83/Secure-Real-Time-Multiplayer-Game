@@ -16,8 +16,14 @@ ctx.fillText('Collect The Stars!!', 250, 50);
 ctx.fillText('Rank: ', 500, 50);
 
 
-const init =()=>{
-socket.emit('init', 'first emit');
+document.addEventListener('keydown', keydown);
+
+function keydown(e){
+    console.log(e.keyCode);
+}
+socket.on('init', text=>{
+    console.log(text);
+});
 let img = new Image();
 img.src = "assets/star.png";
 img.onload =()=>ctx.drawImage(img, 3 + Math.random()*(canvas.width-26), 70 + Math.random()*(canvas.height-93), 20, 20);
@@ -29,6 +35,3 @@ img2.onload =()=>ctx.drawImage(img2, 3 + Math.random()*(canvas.width-48), 70 + M
 let img3 = new Image();
 img3.src = "assets/redvirus.png"
 img3.onload =()=>ctx.drawImage(img3, 3 + Math.random()*(canvas.width-48), 70 + Math.random()*(canvas.height-115), 40, 40);
-}
-
-init();
