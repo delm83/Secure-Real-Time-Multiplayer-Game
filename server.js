@@ -72,7 +72,7 @@ const io = socket(server);
 io.on('connection', socket=> {
   console.log('A user connected: ' + socket.id);
 
-  socket.emit('init', 'emitting from server to client use f12 on game screen to get client console output');
+  socket.emit('newPlayer', socket.id);
 
   socket.on('disconnect', ()=> {
       console.log('A user disconnected: ' + socket.id);

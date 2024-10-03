@@ -15,23 +15,26 @@ ctx.fillText('Controls: WASD', 5, 50);
 ctx.fillText('Collect The Stars!!', 250, 50);
 ctx.fillText('Rank: ', 500, 50);
 
-
 document.addEventListener('keydown', keydown);
 
 function keydown(e){
     console.log(e.keyCode);
 }
-socket.on('init', text=>{
-    console.log(text);
+socket.on('newPlayer', id=>{
+    let x = 3 + Math.random()*(canvas.width-48);
+    let y = 70 + Math.random()*(canvas.height-115);
+    let player = new Player({x:x, y:y, score:0, id:id});
+    let playerImg = new Image();
+    playerImg.src = "assets/bluemoon.png"
+    playerImg.onload =()=>ctx.drawImage(playerImg, x, y, 40, 40);
 });
-let img = new Image();
-img.src = "assets/star.png";
-img.onload =()=>ctx.drawImage(img, 3 + Math.random()*(canvas.width-26), 70 + Math.random()*(canvas.height-93), 20, 20);
 
-let img2 = new Image();
-img2.src = "assets/bluevirus.png"
-img2.onload =()=>ctx.drawImage(img2, 3 + Math.random()*(canvas.width-48), 70 + Math.random()*(canvas.height-115), 40, 40);
+/*
+let starImg = new Image();
+starImg.src = "assets/star.png";
+starImg.onload =()=>ctx.drawImage(img, 3 + Math.random()*(canvas.width-26), 70 + Math.random()*(canvas.height-93), 20, 20);
 
-let img3 = new Image();
-img3.src = "assets/redvirus.png"
-img3.onload =()=>ctx.drawImage(img3, 3 + Math.random()*(canvas.width-48), 70 + Math.random()*(canvas.height-115), 40, 40);
+let opponentImg = new Image();
+opponentImg.src = "assets/redmoon.png"
+opponentImg.onload =()=>ctx.drawImage(img3, 3 + Math.random()*(canvas.width-48), 70 + Math.random()*(canvas.height-115), 40, 40);
+*/
