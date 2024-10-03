@@ -14,12 +14,14 @@ ctx.fillStyle = 'white';
 ctx.fillText('Controls: WASD', 5, 50);
 ctx.fillText('Collect The Stars!!', 250, 50);
 ctx.fillText('Rank: ', 500, 50);
-
+/*
 document.addEventListener('keydown', keydown);
 
 function keydown(e){
     console.log(e.keyCode);
 }
+*/
+
 // canvas width: 640, canvas height: 480
 socket.on('newPlayer', (id, stardata)=>{
     let x = 3 + Math.random()*(canvas.width-48);
@@ -35,7 +37,21 @@ socket.on('newPlayer', (id, stardata)=>{
     let starImg = new Image();
     starImg.src = "assets/star.png";
     starImg.onload =()=>ctx.drawImage(starImg, stardata.x, stardata.y, 20, 20);
+
+    window.addEventListener("keydown", ({ key }) => {
+        player.movePlayer(key, 8, player.x, player.y);
+        console.log('x is '+player.x);
+        console.log('y is '+player.y);
+        ctx.drawImage(playerImg, player.x, player.y, 40, 40);
+      });
 });
+
+
+const animate=()=>{
+    
+}
+
+  
 
 /*
 let starImg = new Image();
