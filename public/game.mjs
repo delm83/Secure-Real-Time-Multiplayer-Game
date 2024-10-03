@@ -20,21 +20,29 @@ document.addEventListener('keydown', keydown);
 function keydown(e){
     console.log(e.keyCode);
 }
-socket.on('newPlayer', id=>{
+// canvas width: 640, canvas height: 480
+socket.on('newPlayer', (id, stardata)=>{
     let x = 3 + Math.random()*(canvas.width-48);
     let y = 70 + Math.random()*(canvas.height-115);
     let player = new Player({x:x, y:y, score:0, id:id});
     let playerImg = new Image();
     playerImg.src = "assets/bluemoon.png"
     playerImg.onload =()=>ctx.drawImage(playerImg, x, y, 40, 40);
+    console.log('x: '+stardata.x)
+    console.log('y: '+stardata.y)
+    console.log('value: '+stardata.value)
+    console.log('id: '+stardata.id)
+    let starImg = new Image();
+    starImg.src = "assets/star.png";
+    starImg.onload =()=>ctx.drawImage(starImg, stardata.x, stardata.y, 20, 20);
 });
 
 /*
 let starImg = new Image();
 starImg.src = "assets/star.png";
-starImg.onload =()=>ctx.drawImage(img, 3 + Math.random()*(canvas.width-26), 70 + Math.random()*(canvas.height-93), 20, 20);
+starImg.onload =()=>ctx.drawImage(starImg, 3 + Math.random()*(canvas.width-26), 70 + Math.random()*(canvas.height-93), 20, 20);
 
 let opponentImg = new Image();
 opponentImg.src = "assets/redmoon.png"
-opponentImg.onload =()=>ctx.drawImage(img3, 3 + Math.random()*(canvas.width-48), 70 + Math.random()*(canvas.height-115), 40, 40);
+opponentImg.onload =()=>ctx.drawImage(opponentImg, 3 + Math.random()*(canvas.width-48), 70 + Math.random()*(canvas.height-115), 40, 40);
 */

@@ -5,6 +5,7 @@ const expect = require('chai');
 const socket = require('socket.io');
 const cors = require('cors');
 const helmet = require('helmet');
+const nanoId = require('nano-id');
 
 const fccTestingRoutes = require('./routes/fcctesting.js');
 const runner = require('./test-runner.js');
@@ -68,11 +69,15 @@ const server = app.listen(portNum, () => {
 
 const http = require('http').createServer(server);
 const io = socket(server);
+let nano_Id = nanoId();
+let x = 3 + Math.random()*614;
+let y = 70 + Math.random()*387;
+let stardata = {x: x, y: y, value: 1, id: nano_Id}
 
 io.on('connection', socket=> {
   console.log('A user connected: ' + socket.id);
 
-  socket.emit('newPlayer', socket.id);
+  socket.emit('newPlayer', socket.id, stardata);
 
   socket.on('disconnect', ()=> {
       console.log('A user disconnected: ' + socket.id);
