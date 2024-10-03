@@ -8,27 +8,22 @@ class Player {
 
   movePlayer(dir, speed) {
     switch(dir) {
-      case "W":
-      case "w":
+      case "up":
         this.y -= speed
         break
-      case "A":
-      case "a":
+      case "left":
         this.x -= speed
         break
-      case "S":
-      case "s":
+      case "down":
         this.y += speed
         break
-      case "D":
-      case "d":
+      case "right":
         this.x += speed
         break
       default:
         break
     }
-
-  }
+}
 
   collision(item) {
 

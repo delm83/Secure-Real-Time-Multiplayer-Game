@@ -5,6 +5,7 @@ import Collectible from './Collectible.mjs';
 const socket = io();
 const canvas = document.getElementById('game-window');
 const ctx = canvas.getContext('2d');
+let dir = null;
 
 ctx.font = '30px Fantasy';
 ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -14,13 +15,6 @@ ctx.fillStyle = 'white';
 ctx.fillText('Controls: WASD', 5, 50);
 ctx.fillText('Collect The Stars!!', 250, 50);
 ctx.fillText('Rank: ', 500, 50);
-/*
-document.addEventListener('keydown', keydown);
-
-function keydown(e){
-    console.log(e.keyCode);
-}
-*/
 
 // canvas width: 640, canvas height: 480
 socket.on('newPlayer', (id, stardata)=>{
@@ -39,19 +33,36 @@ socket.on('newPlayer', (id, stardata)=>{
     starImg.onload =()=>ctx.drawImage(starImg, stardata.x, stardata.y, 20, 20);
 
     window.addEventListener("keydown", ({ key }) => {
-        player.movePlayer(key, 8, player.x, player.y);
+        if(key == 'W' || key == 'w'){
+            if(player.y<=70){
+                return
+            }
+            dir = 'up'
+        }
+        if(key == 'A' || key == 'a'){
+            if(player.x<=3){
+                return
+            }
+            dir = 'left'
+        }
+        if(key == 'S' || key == 's'){
+            if(player.y>=canvas.height-45){
+                return
+            }
+            dir = 'down'
+        }
+        if(key == 'D' || key == 'd'){
+            if(player.x>=canvas.width-45){
+                return
+            }
+            dir = 'right'
+        }
+        player.movePlayer(dir, 8);
         console.log('x is '+player.x);
         console.log('y is '+player.y);
         ctx.drawImage(playerImg, player.x, player.y, 40, 40);
       });
 });
-
-
-const animate=()=>{
-    
-}
-
-  
 
 /*
 let starImg = new Image();
