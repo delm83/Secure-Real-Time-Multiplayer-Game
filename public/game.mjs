@@ -81,11 +81,12 @@ socket.on('updateGame', (players, stardata)=> {
             }
           dir = 'right';
         }
+        if(myPlayer.collision(star)){
+          myPlayer.score += star.value;
+          console.log('my score is '+myPlayer.score);
+          socket.emit('getNewStar');
+        };
       myPlayer.movePlayer(dir, speed);
       
-      if(myPlayer.collision(star)){
-        myPlayer.score += star.value;
-        socket.emit('getNewStar');
-      };
       socket.emit('updatePlayers', {playerObj: myPlayer});
 };
