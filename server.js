@@ -69,19 +69,28 @@ const server = app.listen(portNum, () => {
 
 const http = require('http').createServer(server);
 const io = socket(server);
-let nano_Id = nanoId();
-let x = 3 + Math.random()*614;
-let y = 70 + Math.random()*387;
-let stardata = {x: x, y: y, value: 1, id: nano_Id}
+let players = [];
 
 io.on('connection', socket=> {
   console.log('A user connected: ' + socket.id);
+  
+  socket.on('updatePlayers', updatedPlayer => {
+    // find if the updated player is already in the array using id and update it if it is
+    players = players.map(player => player.playerObj.id == updatedPlayer.playerObj.id ? updatedPlayer : player);
+    // add the updatedPlayer to the array if it is not already present
+    if (players.filter(player => player.playerObj.id == updatedPlayer.playerObj.id).length == 0) {
+      players = [...players, updatedPlayer];
+    }
+    io.emit('updateGame', players);
+  })
 
-  socket.emit('newPlayer', socket.id, stardata);
+  socket.on('disconnect', () => {
+    console.log('A user disconnected: ' + socket.id);
+    // remove disconnected player from array
+    players = players.filter(player => player.playerObj.id != socket.id);
+    io.emit('updateGame', players);
+  })
 
-  socket.on('disconnect', ()=> {
-      console.log('A user disconnected: ' + socket.id);
-  });
 });
 
 http.listen(()=> console.log('Server started!'));

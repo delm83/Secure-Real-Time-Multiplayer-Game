@@ -4,60 +4,35 @@ import Collectible from './Collectible.mjs';
 const socket = io();
 const canvas = document.getElementById('game-window');
 const ctx = canvas.getContext('2d');
-let dir = null;
-let x = 3 + Math.random()*(canvas.width-48);
-let y = 70 + Math.random()*(canvas.height-115);
-let player = new Player({x:x, y:y, score:0, id:0});
-let playerImg = new Image();
-playerImg.src = "assets/bluemoon.png"
-let starImg = new Image();
+const speed = 8;
+const myImg = new Image();
+myImg.src = "assets/bluemoon.png"
+const opponentImg = new Image();
+opponentImg.src = "assets/redmoon.png"
+const starImg = new Image();
 starImg.src = "assets/star.png";
+let dir = null;
+let myPlayer;
 
 // canvas width: 640, canvas height: 480
-const init=()=>{
-socket.on('newPlayer', (id, stardata)=>{
-    player.id = id;
-    
-    //playerImg.onload =()=>ctx.drawImage(playerImg, x, y, 40, 40);
-    
-    //starImg.onload =()=>ctx.drawImage(starImg, stardata.x, stardata.y, 20, 20);
 
-    window.addEventListener("keydown", ({ key }) => {
-        if(key == 'W' || key == 'w'){
-            if(player.y<=70){
-                return
-            }
-            dir = 'up'
-        }
-        if(key == 'A' || key == 'a'){
-            if(player.x<=3){
-                return
-            }
-            dir = 'left'
-        }
-        if(key == 'S' || key == 's'){
-            if(player.y>=canvas.height-45){
-                return
-            }
-            dir = 'down'
-        }
-        if(key == 'D' || key == 'd'){
-            if(player.x>=canvas.width-45){
-                return
-            }
-            dir = 'right'
-        }
-        player.movePlayer(dir, 8);
-        console.log('x is '+player.x);
-        console.log('y is '+player.y);
-      });
-      
-});
-requestAnimationFrame(update);
-}
+socket.on('connect', () => {
+    window.addEventListener("keydown", movePlayer);
+    const x = 3 + Math.random()*(canvas.width-48);
+    const y = 70 + Math.random()*(canvas.height-115);
+    myPlayer = new Player({ x: x, y: y, score: 0, id: socket.id })
+    socket.emit('updatePlayers', {playerObj: myPlayer});
+    console.log('connected to server with id '+myPlayer.id);
+  })
 
-const update=()=>{
-    canvas.width=canvas.width;
+socket.on('updateGame', players=> {  
+    requestAnimationFrame(()=>{
+      updateGame(players);
+    });
+  })
+
+  const updateGame=players=>{
+    canvas.width = canvas.width;
     ctx.font = '30px Fantasy';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.strokeStyle = 'white';
@@ -66,16 +41,40 @@ const update=()=>{
     ctx.fillText('Controls: WASD', 5, 50);
     ctx.fillText('Collect The Stars!!', 250, 50);
     ctx.fillText('Rank: ', 500, 50);
-    ctx.drawImage(playerImg, player.x, player.y, 40, 40);
-    requestAnimationFrame(update);
-     }  
-init();
-/*
-let starImg = new Image();
-starImg.src = "assets/star.png";
-starImg.onload =()=>ctx.drawImage(starImg, 3 + Math.random()*(canvas.width-26), 70 + Math.random()*(canvas.height-93), 20, 20);
-
-let opponentImg = new Image();
-opponentImg.src = "assets/redmoon.png"
-opponentImg.onload =()=>ctx.drawImage(opponentImg, 3 + Math.random()*(canvas.width-48), 70 + Math.random()*(canvas.height-115), 40, 40);
-*/
+    for (let player of players) {
+      console.log(player);
+        ctx.drawImage(player.playerObj.id == myPlayer.id ? myImg : opponentImg, player.playerObj.x, player.playerObj.y, 40, 40);
+      }
+    requestAnimationFrame(()=>{
+        updateGame(players);
+      });
+  }
+  
+  const movePlayer=key=>{
+      if(key.keyCode == 87){
+          if(myPlayer.y<=70){
+              return
+           }
+          dir = 'up';
+        }
+      if(key.keyCode == 65){
+          if(myPlayer.x<=3){
+              return
+            }
+          dir = 'left';
+        }
+      if(key.keyCode == 83){
+          if(myPlayer.y>=canvas.height-45){
+              return
+            }
+          dir = 'down';
+        }
+      if(key.keyCode == 68){
+          if(myPlayer.x>=canvas.width-45){
+              return
+            }
+          dir = 'right';
+        }
+      myPlayer.movePlayer(dir, speed);
+      socket.emit('updatePlayers', {playerObj: myPlayer});
+      };
