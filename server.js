@@ -100,6 +100,11 @@ io.on('connection', socket=> {
     io.emit('updateGame', players, stardata);
   })
 
+  socket.on('getNewStar', () => {
+    stardata = generateStar();
+    io.emit('updateGame', players, stardata);
+  })
+
 });
 
 http.listen(()=> console.log('Server started!'));

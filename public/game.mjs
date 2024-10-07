@@ -10,7 +10,9 @@ myImg.src = "assets/bluemoon.png"
 const opponentImg = new Image();
 opponentImg.src = "assets/redmoon.png"
 const starImg = new Image();
+const playerWidth = 40, playerHeight = 40;
 starImg.src = "assets/star.png";
+const starWidth = 20, starHeight = 20;
 let dir = null;
 let myPlayer;
 let star;
@@ -44,11 +46,11 @@ socket.on('updateGame', (players, stardata)=> {
     ctx.fillText('Collect The Stars!!', 250, 50);
     ctx.fillText('Rank: ', 500, 50);
     for (let player of players) {
-      console.log(player);
-        ctx.drawImage(player.playerObj.id == myPlayer.id ? myImg : opponentImg, player.playerObj.x, player.playerObj.y, 40, 40);
+      //console.log(player);
+        ctx.drawImage(player.playerObj.id == myPlayer.id ? myImg : opponentImg, player.playerObj.x, player.playerObj.y, playerWidth, playerHeight);
       }
     star = new Collectible(stardata);
-    ctx.drawImage(starImg, stardata.x, stardata.y, 20, 20);
+    ctx.drawImage(starImg, stardata.x, stardata.y, starWidth, starHeight);
     requestAnimationFrame(()=>{
         updateGame(players, stardata);
       });
@@ -80,5 +82,10 @@ socket.on('updateGame', (players, stardata)=> {
           dir = 'right';
         }
       myPlayer.movePlayer(dir, speed);
-      socket.emit('updatePlayers', {playerObj: myPlayer});
+      
+      if(myPlayer.collision(star)){
+        myPlayer.score += star.value;
+        socket.emit('getNewStar');
       };
+      socket.emit('updatePlayers', {playerObj: myPlayer});
+};

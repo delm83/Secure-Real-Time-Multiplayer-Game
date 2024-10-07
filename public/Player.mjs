@@ -1,3 +1,6 @@
+const playerWidth = 40, playerHeight = 40;
+const starWidth = 20, starHeight = 20;
+
 class Player {
   constructor({x, y, score, id}) {
     this.x = x;
@@ -26,9 +29,11 @@ class Player {
 }
 
   collision(item) {
-
-  }
-
+    return this.x > item.x + starWidth || item.x > this.x + playerWidth || this.y > item.y + starHeight || item.y > this.y + playerHeight?
+    false:
+    true;
+    }
+  
   calculateRank(arr) {
 
   }
