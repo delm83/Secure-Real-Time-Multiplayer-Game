@@ -13,6 +13,7 @@ const starImg = new Image();
 starImg.src = "assets/star.png";
 let dir = null;
 let myPlayer;
+let star;
 
 // canvas width: 640, canvas height: 480
 
@@ -25,13 +26,14 @@ socket.on('connect', () => {
     console.log('connected to server with id '+myPlayer.id);
   })
 
-socket.on('updateGame', players=> {  
+socket.on('updateGame', (players, stardata)=> {  
     requestAnimationFrame(()=>{
-      updateGame(players);
+      updateGame(players, stardata);
     });
   })
 
-  const updateGame=players=>{
+  const updateGame=(players, stardata)=>{
+    // using canvas.width = canvas.width as alternative to ctx.clearRect which doesnt allow repainting of canvas
     canvas.width = canvas.width;
     ctx.font = '30px Fantasy';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -45,8 +47,10 @@ socket.on('updateGame', players=> {
       console.log(player);
         ctx.drawImage(player.playerObj.id == myPlayer.id ? myImg : opponentImg, player.playerObj.x, player.playerObj.y, 40, 40);
       }
+    star = new Collectible(stardata);
+    ctx.drawImage(starImg, stardata.x, stardata.y, 20, 20);
     requestAnimationFrame(()=>{
-        updateGame(players);
+        updateGame(players, stardata);
       });
   }
   

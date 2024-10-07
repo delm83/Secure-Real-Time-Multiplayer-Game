@@ -70,6 +70,15 @@ const server = app.listen(portNum, () => {
 const http = require('http').createServer(server);
 const io = socket(server);
 let players = [];
+let stardata = generateStar();
+
+// get ReferenceError: Cannot access 'generateStar' before initialization when using arrow function
+function generateStar(){
+  const randX = 3 + Math.random()*614;
+  const randY = 70 + Math.random()*387;
+  const randId = nanoId();
+  return {x: randX, y: randY, value: 1, id: randId}
+}
 
 io.on('connection', socket=> {
   console.log('A user connected: ' + socket.id);
@@ -81,14 +90,14 @@ io.on('connection', socket=> {
     if (players.filter(player => player.playerObj.id == updatedPlayer.playerObj.id).length == 0) {
       players = [...players, updatedPlayer];
     }
-    io.emit('updateGame', players);
+    io.emit('updateGame', players, stardata);
   })
 
   socket.on('disconnect', () => {
     console.log('A user disconnected: ' + socket.id);
     // remove disconnected player from array
     players = players.filter(player => player.playerObj.id != socket.id);
-    io.emit('updateGame', players);
+    io.emit('updateGame', players, stardata);
   })
 
 });
