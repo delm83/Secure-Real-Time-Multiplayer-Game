@@ -5,9 +5,7 @@ class Collectible {
     this.value = value;
     this.id = id;
   }
-
 }
-
 /*
   Note: Attempt to export this for use
   in server.js

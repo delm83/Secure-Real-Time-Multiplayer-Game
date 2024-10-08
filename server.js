@@ -74,10 +74,10 @@ let stardata = generateStar();
 
 // get ReferenceError: Cannot access 'generateStar' before initialization when using arrow function
 function generateStar(){
-  const randX = 3 + Math.random()*614;
-  const randY = 70 + Math.random()*387;
-  const randId = nanoId();
-  return {x: randX, y: randY, value: 1, id: randId}
+  const x = 3 + Math.random()*614;
+  const y = 70 + Math.random()*387;
+  const id = nanoId();
+  return {x: x, y: y, value: 1, id: id}
 }
 
 io.on('connection', socket=> {

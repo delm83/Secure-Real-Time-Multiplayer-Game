@@ -1,6 +1,3 @@
-const playerWidth = 40, playerHeight = 40;
-const starWidth = 20, starHeight = 20;
-
 class Player {
   constructor({x, y, score, id}) {
     this.x = x;
@@ -28,14 +25,21 @@ class Player {
     }
 }
 
-  collision(item) {
-    return this.x > item.x + starWidth || item.x > this.x + playerWidth || this.y > item.y + starHeight || item.y > this.y + playerHeight?
+  collision(item, elementSizes) {
+    return this.x > item.x + elementSizes.starWidth || item.x > this.x + elementSizes.playerWidth || this.y > item.y + elementSizes.starHeight || item.y > this.y + elementSizes.playerHeight?
     false:
     true;
     }
   
   calculateRank(arr) {
-
+    let ranking;
+    let sortedPlayers = arr.toSorted((a, b) => b.score - a.score);
+    for (let player of sortedPlayers) {
+      if (this.id == player.id) {
+        ranking = sortedPlayers.indexOf(player)+1;
+      }
+    }
+    return `Rank: ${ranking}/${arr.length}`
   }
 }
 

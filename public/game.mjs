@@ -16,6 +16,7 @@ const starWidth = 20, starHeight = 20;
 let dir = null;
 let myPlayer;
 let star;
+let rank;
 
 // canvas width: 640, canvas height: 480
 
@@ -29,6 +30,8 @@ socket.on('connect', () => {
   })
 
 socket.on('updateGame', (players, stardata)=> {  
+    star = new Collectible(stardata);
+    rank = myPlayer.calculateRank(players.map(player => player.playerObj));
     requestAnimationFrame(()=>{
       updateGame(players, stardata);
     });
@@ -44,12 +47,11 @@ socket.on('updateGame', (players, stardata)=> {
     ctx.fillStyle = 'white';
     ctx.fillText('Controls: WASD', 5, 50);
     ctx.fillText('Collect The Stars!!', 250, 50);
-    ctx.fillText('Rank: ', 500, 50);
+    ctx.fillText(rank, 500, 50);
     for (let player of players) {
       //console.log(player);
         ctx.drawImage(player.playerObj.id == myPlayer.id ? myImg : opponentImg, player.playerObj.x, player.playerObj.y, playerWidth, playerHeight);
       }
-    star = new Collectible(stardata);
     ctx.drawImage(starImg, stardata.x, stardata.y, starWidth, starHeight);
     requestAnimationFrame(()=>{
         updateGame(players, stardata);
@@ -81,9 +83,8 @@ socket.on('updateGame', (players, stardata)=> {
             }
           dir = 'right';
         }
-        if(myPlayer.collision(star)){
+        if(myPlayer.collision(star, {starWidth: starWidth, starHeight: starHeight, playerWidth: playerWidth, playerHeight: playerHeight})){
           myPlayer.score += star.value;
-          console.log('my score is '+myPlayer.score);
           socket.emit('getNewStar');
         };
       myPlayer.movePlayer(dir, speed);

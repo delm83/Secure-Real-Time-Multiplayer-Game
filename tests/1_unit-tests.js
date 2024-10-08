@@ -80,8 +80,8 @@ suite('Unit Tests', () => {
     test("collision(obj) returns true when a player's avatar collides with a collectible item object.", done => {
       const testPlayer = new Player({ x: 100, y: 100, id: Date.now() });
       const testItem = new Collectible({ x: 100, y: 100, value: 1, id: Date.now() });
-
-      assert.isTrue(testPlayer.collision(testItem));
+      // added game element sizes as second argument for collision method (not relevant for test)
+      assert.isTrue(testPlayer.collision(testItem, {starWidth: 20, starHeight: 20, playerWidth: 40, playerHeight: 40}));
       done();
     });
 
