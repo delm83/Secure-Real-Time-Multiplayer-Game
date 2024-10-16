@@ -53,9 +53,6 @@ socket.on('updateGame', (players, stardata)=> {
         ctx.drawImage(player.playerObj.id == myPlayer.id ? myImg : opponentImg, player.playerObj.x, player.playerObj.y, playerWidth, playerHeight);
       }
     ctx.drawImage(starImg, stardata.x, stardata.y, starWidth, starHeight);
-    requestAnimationFrame(()=>{
-        updateGame(players, stardata);
-      });
   }
   
   const movePlayer=key=>{
